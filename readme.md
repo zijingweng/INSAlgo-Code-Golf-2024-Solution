@@ -28,9 +28,9 @@ escript path_to/osabie -c 1.05AB1E
 ```
 Explanation:
 ```
-т       		# push 100
- Åp     		# produces a list of the first (a) primes
-   »    		# join by newlines
+т               # push 100
+ Åp             # produces a list of the first (a) primes
+   »            # join by newlines
                 # implicit output
 ```
 
@@ -40,13 +40,13 @@ A3ãεÂ¦«}»
 ```
 Explanation:
 ```
-A           	# push "abcdefghijklmnopqrstuvwxyz"
- 3ã         	# cartesian power of 3, which yields ["aaa", "aab", "aac" ... "zzz"]
-   ε   }    	# for each element do
-    Â       	# bifurcate (push reverse to stack)
-     ¦      	# tail (remove the first element)
-      «     	# concatenate
-        »   	# join by newlines
+A               # push "abcdefghijklmnopqrstuvwxyz"
+ 3ã             # cartesian power of 3, which yields ["aaa", "aab", "aac" ... "zzz"]
+   ε   }        # for each element do
+    Â           # bifurcate (push reverse to stack)
+     ¦          # tail (remove the first element)
+      «         # concatenate
+        »       # join by newlines
                 # implicit output
 ```
 
@@ -78,23 +78,23 @@ First create a one-caracter wide spiral like this:
 ```
 The following code is inspired by [this](https://codegolf.stackexchange.com/a/167486)
 ```
-          .Λ  	# (output to string) Draw lines of length:
-18L           	# 	[1, 2 ... 18]
-   18ª        	# 	append another 18 to list
+          .Λ    # (output to string) Draw lines of length:
+18L             #     [1, 2 ... 18]
+   18ª          #     append another 18 to list
                 # with caracter(s):
-      X       	# 	value of X variable (defaults to 1)
-                  # in the direction of:
-       3Ý		# 	[0, 1, 2, 3]
-         ·		# 	times 2 = [0, 2, 4, 6]
+      X         #     value of X variable (defaults to 1)
+                # in the direction of:
+       3Ý       #     [0, 1, 2, 3]
+         ·      #     times 2 = [0, 2, 4, 6]
 ```
 Then we just need to replace the caracters
 ```
-    :			# replace recursively
-X				# value of X variable (defaults to 1)
- „[]			# with 2-char string "[]"
-         .:		# replace all
-     ð			# whitespace
-      „  		# with 2-char string "  "
+    :           # replace recursively
+X               # value of X variable (defaults to 1)
+ „[]            # with 2-char string "[]"
+         .:     # replace all
+     ð          # whitespace
+      „         # with 2-char string "  "
                 # implicit output
 ```
 
@@ -111,70 +111,70 @@ Explanation:
 Initialization of input
 ```
                 # implicit input
-  ¡				# parse with
-',				# character ','
-      ǝ			# replace element at index
-     X			# value of X variable (defaults to 1)
-   12			# with 12
-         ǝ		# replace element at index
-        Y		# value of Y variable (defaults to 2)
-       Y		# with value of Y variable
-          U		# assgin to variable X (now X stores the code as a list of integers)
+  ¡             # parse with
+',              # character ','
+      ǝ         # replace element at index
+     X          # value of X variable (defaults to 1)
+   12           # with 12
+         ǝ      # replace element at index
+        Y       # value of Y variable (defaults to 2)
+       Y        # with value of Y variable
+          U     # assgin to variable X (now X stores the code as a list of integers)
 ```
 State machine with infinite loop
 ```
-[... ...]		# infinite loop
-    #			# break loop if true
-           ,	# print
-         X¬		# first element of X
+[... ...]       # infinite loop
+    #           # break loop if true
+           ,    # print
+         X¬     # first element of X
 ```
 Calculate index `Y`
 ```
-N				# current index of loop (0 to inf)
- 4*				# times 4
-   V			# assgin to variable Y
+N               # current index of loop (0 to inf)
+ 4*             # times 4
+   V            # assgin to variable Y
 ```
 Calculate `code[code[Y+2]]`
 ```
-     è			# get element of
-X				# X
-    è			# at index 	get element of
- X				# 			X
-  YÌ			# 			at index Y+2
+     è          # get element of
+X               # X
+    è           # at index    get element of
+ X              #             X
+  YÌ            #             at index Y+2
 ```
 Similarly, calculate `code[code[Y+1]]` and `code[Y]` (duplicated for future use)
 ```
-XXY>èè			# calculate code[code[Y+1]]
-      XYè		# calculate code[Y]
-         D		# duplicate it
+XXY>èè          # calculate code[code[Y+1]]
+      XYè       # calculate code[Y]
+         D      # duplicate it
 ```
 Break the loop if `code[Y] == 99` (consumes `code[Y]`)
 ```
-   #			# break loop if
-99Q				# (a) equals to 99
+   #            # break loop if
+99Q             # (a) equals to 99
 ```
 Calculate sum if `code[Y] == 1` (consumes `code[Y]`)
 ```
- i				# if
-Θ				# (a) equals to 1
-  +				# then push (a) + (b)
-   }			# endif
+ i              # if
+Θ               # (a) equals to 1
+  +             # then push (a) + (b)
+   }            # endif
 ```
 Calculate product if `stack_size == 3` which means `code[Y] == 2`
 ```
-    i			# if
-.g				# stack_size
-  3Q			# equals 3
-     *			# then push (a) * (b)
-      }			# endif
+    i           # if
+.g              # stack_size
+  3Q            # equals 3
+     *          # then push (a) * (b)
+      }         # endif
 ```
 Finally, update `X`
 ```
-X...			# the list that was put in the stack long ago
-         ǝ		# replace element at index
-    XY3+è		# code[code[Y+3]]
+X...            # the list that was put in the stack long ago
+         ǝ      # replace element at index
+    XY3+è       # code[code[Y+3]]
                 # with (a)
-          U		# assgin to variable X
+          U     # assgin to variable X
 ```
 Note that in the final version `XXX` is replaced by `XÐ` to save a byte. 
 
