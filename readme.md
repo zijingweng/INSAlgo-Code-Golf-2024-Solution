@@ -31,7 +31,7 @@ Explanation:
 т       		# push 100
  Åp     		# produces a list of the first (a) primes
    »    		# join by newlines
-        		# implicit output
+                # implicit output
 ```
 
 ## [Day 2](https://github.com/INSAlgo/Code-Golf-2024/blob/main/2%20-%20palindromes/sujet.md): 9 bytes
@@ -47,7 +47,7 @@ A           	# push "abcdefghijklmnopqrstuvwxyz"
      ¦      	# tail (remove the first element)
       «     	# concatenate
         »   	# join by newlines
-            	# implicit output
+                # implicit output
 ```
 
 ## [Day 3](https://github.com/INSAlgo/Code-Golf-2024/blob/main/3%20-%20spirale/sujet.md): 23 bytes
@@ -81,9 +81,9 @@ The following code is inspired by [this](https://codegolf.stackexchange.com/a/16
           .Λ  	# (output to string) Draw lines of length:
 18L           	# 	[1, 2 ... 18]
    18ª        	# 	append another 18 to list
-				# with caracter(s):
+                # with caracter(s):
       X       	# 	value of X variable (defaults to 1)
-	  			# in the direction of:
+                  # in the direction of:
        3Ý		# 	[0, 1, 2, 3]
          ·		# 	times 2 = [0, 2, 4, 6]
 ```
@@ -92,36 +92,41 @@ Then we just need to replace the caracters
     :			# replace recursively
 X				# value of X variable (defaults to 1)
  „[]			# with 2-char string "[]"
-	     .:		# replace all
-	 ð			# whitespace
-	  „  		# with 2-char string "  "
-            	# implicit output
+         .:		# replace all
+     ð			# whitespace
+      „  		# with 2-char string "  "
+                # implicit output
 ```
 
 ## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 58 bytes
 ```
 ',¡12XǝYYǝU[N4*VXÐYÌèèXXY>èèXYèD99Q#Θi+}.g3Qi*}XY3+èǝU]X¬,
 ```
+To run with input file, use either one:
+```
+escript path_to/osabie 4utf8.05AB1E < 4input.txt
+escript path_to/osabie -c 4.05AB1E < 4input.txt
+```
 Explanation:  
 Initialization of input
 ```
-				# implicit input
+                # implicit input
   ¡				# parse with
 ',				# character ','
-	  ǝ			# replace element at index
+      ǝ			# replace element at index
      X			# value of X variable (defaults to 1)
    12			# with 12
-		 ǝ		# replace element at index
-	    Y		# value of Y variable (defaults to 2)
-	   Y		# with value of Y variable
-		  U		# assgin to variable X (now X stores the code as a list of integers)
+         ǝ		# replace element at index
+        Y		# value of Y variable (defaults to 2)
+       Y		# with value of Y variable
+          U		# assgin to variable X (now X stores the code as a list of integers)
 ```
 State machine with infinite loop
 ```
 [... ...]		# infinite loop
     #			# break loop if true
-		   ,	# print
-	     X¬		# first element of X
+           ,	# print
+         X¬		# first element of X
 ```
 Calculate index `Y`
 ```
@@ -131,7 +136,7 @@ N				# current index of loop (0 to inf)
 ```
 Calculate `code[code[Y+2]]`
 ```
-	 è			# get element of
+     è			# get element of
 X				# X
     è			# at index 	get element of
  X				# 			X
@@ -160,16 +165,16 @@ Calculate product if `stack_size == 3` which means `code[Y] == 2`
     i			# if
 .g				# stack_size
   3Q			# equals 3
-	 *			# then push (a) * (b)
-	  }			# endif
+     *			# then push (a) * (b)
+      }			# endif
 ```
 Finally, update `X`
 ```
 X...			# the list that was put in the stack long ago
          ǝ		# replace element at index
     XY3+è		# code[code[Y+3]]
-				# with (a)
-	      U		# assgin to variable X
+                # with (a)
+          U		# assgin to variable X
 ```
 Note that in the final version `XXX` is replaced by `XÐ` to save a byte. 
 
