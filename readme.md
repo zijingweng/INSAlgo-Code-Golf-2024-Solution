@@ -98,9 +98,9 @@ X               # value of X variable (defaults to 1)
                 # implicit output
 ```
 
-## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 58 bytes
+## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 52 bytes
 ```
-',¡12XǝYYǝU[N4*VXÐYÌèèXXY>èèXYèD99Q#Θi+}.g3Qi*}XY3+èǝU]X¬,
+',¡12XǝYYǝU[N4*VXÐYÌèèXXY>èèXYèD99Q#Θi+ë*}XY3+èǝU]X¬
 ```
 To run with input file, use either one:
 ```
@@ -121,12 +121,12 @@ Initialization of input
        Y        # with value of Y variable
           U     # assgin to variable X (now X stores the code as a list of integers)
 ```
-State machine with infinite loop
+State machine with infinite loop, plus the final output
 ```
 [... ...]       # infinite loop
     #           # break loop if true
-           ,    # print
-         X¬     # first element of X
+         X¬     # get first element of X
+                # implicit output
 ```
 Calculate index `Y`
 ```
@@ -148,25 +148,19 @@ XXY>èè          # calculate code[code[Y+1]]
       XYè       # calculate code[Y]
          D      # duplicate it
 ```
-Break the loop if `code[Y] == 99` (consumes `code[Y]`)
+Break the loop if `code[Y] == 99`
 ```
    #            # break loop if
 99Q             # (a) equals to 99
 ```
-Calculate sum if `code[Y] == 1` (consumes `code[Y]`)
+Calculate sum or product according to `code[Y]`
 ```
  i              # if
-Θ               # (a) equals to 1
-  +             # then push (a) + (b)
-   }            # endif
-```
-Calculate product if `stack_size == 3` which means `code[Y] == 2`
-```
-    i           # if
-.g              # stack_size
-  3Q            # equals 3
-     *          # then push (a) * (b)
-      }         # endif
+Θ               # (a) equals to 1 then
+  +             # push (a) + (b)
+   ë            # else
+    *           # push (a) + (b)
+     }          # endif
 ```
 Finally, update `X`
 ```
@@ -178,4 +172,91 @@ X...            # the list that was put in the stack long ago
 ```
 Note that in the final version `XXX` is replaced by `XÐ` to save a byte. 
 
-## [Day 5](): ?? bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 96 bytes
+```
+0U351V|YLª»©\[XYY<*ÍQ#0®X>è'#Qi>}®XY+è'#QiÌ}DÉiX>UëD2QiXY+Uë[D3Qi<XY+U1#}2QiXY-UëX<U]JεÉi'Rë'D]»
+```
+The code takes about a minute to run on my laptop. A logically similar code `5.py` is first written in python that is way more readable.
+
+Explanation:  
+Because we only have one input which has a single solution, with only right and down moves, the searching algorithm is really simple. At each given position, we only need to look the cases on the right and bottom. If only one of them is `#`, we save the direction in `stack` and move there. If both of them are `#`, we save this information in `stack` and go **right**. If none of them are `#`, it is safe to say that we are on the wrong path, so we go back to the last crossroad (by poping `stack`) and go **down** this time.
+
+To simplify the problem, I decided to add 1 paddings at the right and bottom edge of the map, making it `351 * 351`. Because of the lack of variables and to shorten the code, I used a single variable `X` to store the current position. We start at `0`. `X+1` is the case to the right and `X+351` is the case to the bottom. Our goal is at position `351*350-2 = 122848`.
+
+Initialization of input
+```
+0U              # assgin 0 to variable X (current position)
+  351V          # assgin 351 to variable Y
+      |         # input all
+       YLª      # put dummy numbers [1, 2 ... 351] as bottom padding
+          »     # join by '\n' which makes the right padding
+           ©    # save the map to register_C
+            \   # remove map from the stack
+```
+The main loop and exit statement
+```
+[         ...]  # infinite loop
+       Q#       # break if the following two equals:
+ X              # current position
+  YY<*Í         # 351*(351-1)-2 = 122848
+```
+We first push `0` to store the information of this position. We call it the `flag`. If the case on the right is `#`, we increment `flag` by `1`.
+```
+0               # the flag
+     '#Qi }     # if '#' equals to
+    è           #   get
+  X>            #   positon on the right
+ ®              #   of the map (retrived from register_c)
+         >      # then flag++
+```
+Similarly, if the case on the bottom is `#`, we increment `flag` by `2`.
+```
+®XY+è'#QiÌ}
+```
+We can now check the flag. if `flag == 1` (only right is `#`) or `flag == 3` (both right and down are `#`), or alternatively if `flag` is odd, we go the right. 
+```
+D               # duplicate the flag
+ Éi             # if it is odd
+   X>U          # assign X with X+1 (go right)
+```
+Else if `flag == 2` we go down.
+```
+ë               # else
+ D              # duplicate the flag
+  2Qi           # if flag == 2
+     XY+U       # assign X with X+351 (go down)
+```
+Else `flag` must be `0` which means we have to go back.
+```
+ë               # else
+ [...]          # infinite loop
+```
+If we find a `3` which is a crossroad, we go down this time. Note that we didn't go left here because it is already done when visiting `0` (explained later). 
+```
+D               # duplicate the current flag
+ 3Qi       }    # if flag == 3
+    <           # assign flag with 2
+     XY+U       # assign X with X+351 (go down)
+         1#     # break the loop
+```
+If we find a `2` we go up.
+```
+2Qi             # if flag == 2
+   XY-U         # assign X with X-351 (go up)
+```
+Else it must be `1` where we have to go left, or `0`. The `0` is always visited once, and instead of going left once on the crossroad (`3`), we can go left here, to save a few bytes.
+```
+ë               # else
+ X<U            # assign X with X-1 (go left)
+```
+The following character `]` closes all if statements and two infinite loops. The only thing left to do is the output. Instead of replacing characters, I found that using an if statement is 1 byte shorter. 
+```
+J               # join the stack as a single string
+ ε              # for each character of the string
+  Éi            # if it is odd (1 or 3)
+    'R          # push 'R' as Right
+      ë'D       # else push 'D' as Down
+         ]      # close if and for statement
+          »     # join by newlines
+                # implicit output
+```
