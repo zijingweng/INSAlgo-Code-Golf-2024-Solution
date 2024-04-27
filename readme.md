@@ -115,9 +115,9 @@ X               # value of X variable (defaults to 1)
                 # implicit output
 ```
 
-## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 52 bytes
+## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 51 bytes
 ```
-',¡12XǝYYǝU[N4*VXÐYÌèèXXY>èèXYèD99Q#Θi+ë*}XY3+èǝU]X¬
+',¡12XǝYYǝU[N4*VX2EXXYN+èè}XYèD99Q#Θi+ë*}XY3+èǝU]X¬
 ```
 To run with input file, use either one:
 ```
@@ -151,19 +151,19 @@ N               # current index of loop (0 to inf)
  4*             # times 4
    V            # assgin to variable Y
 ```
-Calculate `code[code[Y+2]]`
+Calculate `code[code[Y+1]]` and `code[code[Y+2]]`
 ```
-     è          # get element of
-X               # X
-    è           # at index    get element of
- X              #             X
-  YÌ            #             at index Y+2
+2E       }      # loop 2 times (N = 1 and 2)
+        è       # get element of
+  X             # X
+       è        # at index    get element of
+   X            #             X
+    YN+         #             at index Y+N
 ```
-Similarly, calculate `code[code[Y+1]]` and `code[Y]` (duplicated for future use)
+Similarly, calculate `code[Y]` (duplicated for future use)
 ```
-XXY>èè          # calculate code[code[Y+1]]
-      XYè       # calculate code[Y]
-         D      # duplicate it
+XYè             # calculate code[Y]
+   D            # duplicate it
 ```
 Break the loop if `code[Y] == 99`
 ```
@@ -187,7 +187,6 @@ X...            # the list that was put in the stack long ago
                 # with (a)
           U     # assgin to variable X
 ```
-Note that in the final version `XXX` is replaced by `XÐ` to save a byte. 
 
 ## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 94 bytes
 ```
