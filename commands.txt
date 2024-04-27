@@ -3,3 +3,5 @@ escript ./05AB1E/osabie -c 2.05AB1E
 escript ./05AB1E/osabie -c 3.05AB1E
 escript ./05AB1E/osabie -c 4.05AB1E < 4input.txt
 escript ./05AB1E/osabie -c 5.05AB1E < 5input.txt > out.txt
+
+--no-lazy --debug-stack
