@@ -34,7 +34,24 @@ Explanation:
                 # implicit output
 ```
 
-## [Day 2](https://github.com/INSAlgo/Code-Golf-2024/blob/main/2%20-%20palindromes/sujet.md): 9 bytes
+## [Day 2](https://github.com/INSAlgo/Code-Golf-2024/blob/main/2%20-%20palindromes/sujet.md): 8 bytes
+```
+A5ãʒÂQ}»
+```
+The code takes about a minute to run on my laptop.
+
+Explanation:
+```
+A               # push "abcdefghijklmnopqrstuvwxyz"
+ 5ã             # cartesian power of 5, which yields ["aaaaa", "aaaab", "aaaac" ... "zzzzz"]
+   ʒ  }         # keep only elements that
+    Â           # itself and its reverse
+     Q          # equals
+       »        # join by newlines
+                # implicit output
+```
+
+(Bonus) The following code is a byte longer but way faster : 
 ```
 A3ãεÂ¦«}»
 ```
@@ -176,7 +193,7 @@ Note that in the final version `XXX` is replaced by `XÐ` to save a byte.
 ```
 0U351V|YLª»©\[XYY<*ÍQ#0®X>è'#Qi>}®XY+è'#QiÌ}DÉiX>UëD2QiXY+Uë[D3Qi<XY+U1#}2QiXY-UëX<U]JεÉi'Rë'D]»
 ```
-The code takes about a minute to run on my laptop. A logically similar code `5.py` is first written in python that is way more readable.
+The code again takes about a minute to run. A logically similar code `5.py` is first written in python that is way more readable.
 
 Explanation:  
 Because we only have one input which has a single solution, with only right and down moves, the searching algorithm is really simple. At each given position, we only need to look the cases on the right and bottom. If only one of them is `#`, we save the direction in `stack` and move there. If both of them are `#`, we save this information in `stack` and go **right**. If none of them are `#`, it is safe to say that we are on the wrong path, so we go back to the last crossroad (by poping `stack`) and go **down** this time.
