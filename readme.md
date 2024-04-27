@@ -189,9 +189,9 @@ X...            # the list that was put in the stack long ago
 ```
 Note that in the final version `XXX` is replaced by `XÐ` to save a byte. 
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 96 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 94 bytes
 ```
-0U351V|YLª»©\[XYY<*ÍQ#0®X>è'#Qi>}®XY+è'#QiÌ}DÉiX>UëD2QiXY+Uë[D3Qi<XY+U1#}2QiXY-UëX<U]JεÉi'Rë'D]»
+0UƵûV|YLª»©\[XŽñá·Q#0®X>è'#Qi>}®XY+è'#QiÌ}DÉiX>UëD2QiXY+Uë[D3Qi<XY+U1#}2QiXY-UëX<U]JεÉi'Rë'D]»
 ```
 The code again takes about a minute to run. A logically similar code `5.py` is first written in python that is way more readable.
 
@@ -203,19 +203,19 @@ To simplify the problem, I decided to add 1 paddings at the right and bottom edg
 Initialization of input
 ```
 0U              # assgin 0 to variable X (current position)
-  351V          # assgin 351 to variable Y
-      |         # input all
-       YLª      # put dummy numbers [1, 2 ... 351] as bottom padding
-          »     # join by '\n' which makes the right padding
-           ©    # save the map to register_C
-            \   # remove map from the stack
+  ƵûV           # assgin 351 to variable Y
+     |          # input all
+      YLª       # put dummy numbers [1, 2 ... 351] as bottom padding
+         »      # join by '\n' which makes the right padding
+          ©     # save the map to register_C
+           \    # remove map from the stack
 ```
 The main loop and exit statement
 ```
-[         ...]  # infinite loop
-       Q#       # break if the following two equals:
+[        ...]   # infinite loop
+      Q#        # break if the following two equals:
  X              # current position
-  YY<*Í         # 351*(351-1)-2 = 122848
+  Žñá·          # 61424*2 = 122848
 ```
 We first push `0` to store the information of this position. We call it the `flag`. If the case on the right is `#`, we increment `flag` by `1`.
 ```
