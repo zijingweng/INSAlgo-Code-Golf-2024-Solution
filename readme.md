@@ -115,9 +115,9 @@ X               # value of X variable (defaults to 1)
                 # implicit output
 ```
 
-## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 50 bytes
+## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%20alarme/sujet.md): 49 bytes
 ```
-',¡12XǝYYǝU[N4*VX2EXXYN+èè}XYèD2›#Θi+ë*}XY3+èǝU]X¬
+',¡12XǝYYǝU[N4*VX2EXXYN+èè}XYèD2›#i+ë*}XY3+èǝU]X¬
 ```
 To run with input file, use either one:
 ```
@@ -172,12 +172,11 @@ Break the loop if `code[Y] == 99`. Since `code[Y]` can only be 1, 2 or 99, we ca
 ```
 Calculate sum or product according to `code[Y]`
 ```
- i              # if
-Θ               # (a) equals to 1 then
-  +             # push (a) + (b)
-   ë            # else
-    *           # push (a) + (b)
-     }          # endif
+i               # if code[Y] equals to 1 then
+ +              # push (a) + (b)
+  ë             # else
+   *            # push (a) + (b)
+    }           # endif
 ```
 Finally, update `X`
 ```
@@ -188,9 +187,9 @@ X...            # the list that was put in the stack long ago
           U     # assgin to variable X
 ```
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 94 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 84 bytes
 ```
-0UƵûV|YLª»©\[XŽñá·Q#0®X>è'#Qi>}®XY+è'#QiÌ}DÉiX>UëD2QiXY+Uë[D3Qi<XY+U1#}2QiXY-UëX<U]JεÉi'Rë'D]»
+0UƵûV|YLª»©\[XŽñá·Q#Y1‚εX+®rè'#Q}JCDÉiX>UëD<iXY+Uë[DÍi<XY+U1#}<iXY-UëX<U]JεÉi'Rë'D]»
 ```
 The code again takes about a minute to run. A logically similar code `5.py` is first written in python that is way more readable.
 
@@ -216,31 +215,28 @@ The main loop and exit statement
  X              # current position
   Žñá·          # 61424*2 = 122848
 ```
-We first push `0` to store the information of this position. We call it the `flag`. If the case on the right is `#`, we increment `flag` by `1`.
+We use `flag` to store the information of this position, which can be seen as a binary number, stored in a list. The greater bit represents if the case to the bottom is `#`, and the lower bit checks the case to the right.
 ```
-0               # the flag
-     '#Qi }     # if '#' equals to
-    è           #   get
-  X>            #   positon on the right
- ®              #   of the map (retrived from register_c)
-         >      # then flag++
+   ε        }   # for each element in the
+Y1‚             # list [351, 1] (down, right) do:
+       rè       # get
+    X+          # next positon
+      ®         # of the map (retrived from register_c)
+         '#Q    # if it equals to '#' push 1 else 0
 ```
-Similarly, if the case on the bottom is `#`, we increment `flag` by `2`.
+We can now check the flag. if `flag == 1` (only right is `#`) or `flag == 3` (both right and down are `#`), or in other words if `flag` is odd, we go the right. 
 ```
-®XY+è'#QiÌ}
-```
-We can now check the flag. if `flag == 1` (only right is `#`) or `flag == 3` (both right and down are `#`), or alternatively if `flag` is odd, we go the right. 
-```
-D               # duplicate the flag
- Éi             # if it is odd
-   X>U          # assign X with X+1 (go right)
+JC                # convert binary list to integer (flag)
+  D               # duplicate the flag
+   Éi             # if it is odd
+     X>U          # assign X with X+1 (go right)
 ```
 Else if `flag == 2` we go down.
 ```
 ë               # else
  D              # duplicate the flag
-  2Qi           # if flag == 2
-     XY+U       # assign X with X+351 (go down)
+  <i            # if flag - 1 == 1
+    XY+U        # assign X with X+351 (go down)
 ```
 Else `flag` must be `0` which means we have to go back.
 ```
@@ -250,15 +246,15 @@ Else `flag` must be `0` which means we have to go back.
 If we find a `3` which is a crossroad, we go down this time. Note that we didn't go left here because it is already done when visiting `0` (explained later). 
 ```
 D               # duplicate the current flag
- 3Qi       }    # if flag == 3
-    <           # assign flag with 2
-     XY+U       # assign X with X+351 (go down)
-         1#     # break the loop
+ Íi        }    # if flag - 2 == 1
+   <            # assign flag with 2
+    XY+U        # assign X with X+351 (go down)
+        1#      # break the loop
 ```
 If we find a `2` we go up.
 ```
-2Qi             # if flag == 2
-   XY-U         # assign X with X-351 (go up)
+<i              # if flag - 1 == 1
+  XY-U          # assign X with X-351 (go up)
 ```
 Else it must be `1` where we have to go left, or `0`. The `0` is always visited once, and instead of going left once on the crossroad (`3`), we can go left here, to save a few bytes.
 ```
