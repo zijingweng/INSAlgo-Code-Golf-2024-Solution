@@ -115,9 +115,9 @@ X               # value of X variable (defaults to 1)
                 # implicit output
 ```
 
-## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 51 bytes
+## [Day 4](https://github.com/INSAlgo/Code-Golf-2024/blob/main/4%20-%201202%20Program%20Alarm/sujet.md): 50 bytes
 ```
-',¡12XǝYYǝU[N4*VX2EXXYN+èè}XYèD99Q#Θi+ë*}XY3+èǝU]X¬
+',¡12XǝYYǝU[N4*VX2EXXYN+èè}XYèD2›#Θi+ë*}XY3+èǝU]X¬
 ```
 To run with input file, use either one:
 ```
@@ -165,10 +165,10 @@ Similarly, calculate `code[Y]` (duplicated for future use)
 XYè             # calculate code[Y]
    D            # duplicate it
 ```
-Break the loop if `code[Y] == 99`
+Break the loop if `code[Y] == 99`. Since `code[Y]` can only be 1, 2 or 99, we can use `code[Y] > 2`
 ```
-   #            # break loop if
-99Q             # (a) equals to 99
+  #             # break loop if
+2›              # (a) > 2
 ```
 Calculate sum or product according to `code[Y]`
 ```
