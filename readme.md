@@ -1,6 +1,6 @@
 # Solution for [INSAlgo Code Golf 2024](https://github.com/INSAlgo/Code-Golf-2024)
 
-The language used is [**05AB1E**](https://github.com/Adriandmen/05AB1E), a stacked based golfing language. Apart from the offical github [wiki](https://github.com/Adriandmen/05AB1E/wiki), these [tips](https://github.com/Adriandmen/05AB1E/wiki) helped a lot to optimize the code. 
+The language used is [**05AB1E**](https://github.com/Adriandmen/05AB1E), a stacked based golfing language. Apart from the offical github [wiki](https://github.com/Adriandmen/05AB1E/wiki), these [tips](https://codegolf.stackexchange.com/questions/96361/tips-for-golfing-in-05ab1e) helped a lot to optimize the code. 
 
 To run code with `osabie encoding`, you might need to change the **05AB1E** source code:  
 ```elixir
