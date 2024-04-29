@@ -191,7 +191,7 @@ X...            # the list that was put in the stack long ago
 ```
 |»UƵûV¯[DO©Žñá·Q#X®>è'#Qi1ªëX®Y+è'#QiYªëX0®ǝU¨]εi'Rë'D]»
 ```
-Big thanks to @polo-diemunsch for the competition that forced me to come up with a new algorithm. 
+Big thanks to [polo-diemunsch](https://github.com/polo-diemunsch) for the competition that forced me to come up with a new algorithm. 
 
 The code again takes about a minute to run.
 
@@ -240,7 +240,7 @@ Else we are in a dead end, so we change the map and take one step back
      U          # and save it to variable X
       ¨         # pop list (remove last step)
 ```
-The following character `]` closes all if statements and the infinite loop. The only thing left to do is the output.
+The following character `]` closes all if statements and the infinite loop. The only thing left is the output:
 ```
 ε               # for each element of the list
  i              # if it equals to 1
