@@ -187,88 +187,66 @@ X...            # the list that was put in the stack long ago
           U     # assgin to variable X
 ```
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 84 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 56 bytes
 ```
-0UƵûV|YLª»©\[XŽñá·Q#Y1‚εX+®rè'#Q}JCDÉiX>UëD<iXY+Uë[DÍi<XY+U1#}<iXY-UëX<U]JεÉi'Rë'D]»
+|»UƵûV¯[DO©Žñá·Q#X®>è'#Qi1ªëX®Y+è'#QiYªëX0®ǝU¨]εi'Rë'D]»
 ```
-The code again takes about a minute to run. A logically similar code `5.py` is first written in python that is way more readable.
+Big thanks to @polo-diemunsch for the competition that forced me to come up with a new algorithm. 
+
+The code again takes about a minute to run.
 
 Explanation:  
-Because we only have one input which has a single solution, with only right and down moves, the searching algorithm is really simple. At each given position, we only need to look the cases on the right and bottom. If only one of them is `#`, we save the direction in `stack` and move there. If both of them are `#`, we save this information in `stack` and go **right**. If none of them are `#`, it is safe to say that we are on the wrong path, so we go back to the last crossroad (by poping `stack`) and go **down** this time.
+Because we only have one input which has a solution with only right and down moves, the searching algorithm is simple. At each given position, we only need to search two neighboring cases, prioritising **right** over **down**. If we reach a deadend, we **modify the map**, changing current case to wall and go back one move.
 
-To simplify the problem, I decided to add 1 paddings at the right and bottom edge of the map, making it `351 * 351`. Because of the lack of variables and to shorten the code, I used a single variable `X` to store the current position. We start at `0`. `X+1` is the case to the right and `X+351` is the case to the bottom. Our goal is at position `351*350-2 = 122848`.
+In the implementation, I decided to save the map in a 1-dimensional list, adding 1 padding character between the lines. Because of the lack of variables and to shorten the code, I used a single variable to store the current position. We start at `0`. `current + 1` is the case to the right and `current + 351` is the case to the bottom. Our goal is at position `351*350-2 = 122848`. The interesting part is that if we store `1` as **right** and `351` as **down** in the list of directions, the current position can be calculated by the sum of the list. There is need to maintain the variable.   
 
-Initialization of input
+Initialization
 ```
-0U              # assgin 0 to variable X (current position)
-  ƵûV           # assgin 351 to variable Y
-     |          # input all
-      YLª       # put dummy numbers [1, 2 ... 351] as bottom padding
-         »      # join by '\n' which makes the right padding
-          ©     # save the map to register_C
-           \    # remove map from the stack
+|               # input all
+ »              # join by '\n' which makes the padding
+  U             # assgin to variable X
+   Ƶû           # 351 (compressed in base 255)
+     V          # assign to variable Y
+      ¯         # empty list (to store directions)
 ```
-The main loop and exit statement
+The main loop, calculate current position and exit statement
 ```
-[        ...]   # infinite loop
-      Q#        # break if the following two equals:
- X              # current position
-  Žñá·          # 61424*2 = 122848
+[         ...]  # infinite loop
+        Q#      # break if the following two equals:
+ DO             # sum of list (current position)
+   ©            # (save to register_c)
+    Žñá·        # 61424*2 = 122848
 ```
-We use `flag` to store the information of this position, which can be seen as a binary number, stored in a list. The greater bit represents if the case to the bottom is `#`, and the lower bit checks the case to the right.
+If the case to the right is `#`, we append `1` to the list
 ```
-   ε        }   # for each element in the
-Y1‚             # list [351, 1] (down, right) do:
-       rè       # get
-    X+          # next positon
-      ®         # of the map (retrived from register_c)
-         '#Q    # if it equals to '#' push 1 else 0
+       i        # if
+   è            # element of
+X               # map at
+ ®>             # case to the right
+    '#Q         # equals to '#'
+        1ª      # then append 1
 ```
-We can now check the flag. if `flag == 1` (only right is `#`) or `flag == 3` (both right and down are `#`), or in other words if `flag` is odd, we go the right. 
+Similarly, else if the case to the bottom is `#`, we append `351` to the list
 ```
-JC                # convert binary list to integer (flag)
-  D               # duplicate the flag
-   Éi             # if it is odd
-     X>U          # assign X with X+1 (go right)
+ëX®Y+è'#QiYª
 ```
-Else if `flag == 2` we go down.
+Else we are in a dead end, so we change the map and take one step back
 ```
 ë               # else
- D              # duplicate the flag
-  <i            # if flag - 1 == 1
-    XY+U        # assign X with X+351 (go down)
+    ǝ           # replace the element of
+ X              # the map
+   ®            # at current position
+  0             # with 0
+     U          # and save it to variable X
+      ¨         # pop list (remove last step)
 ```
-Else `flag` must be `0` which means we have to go back.
+The following character `]` closes all if statements and the infinite loop. The only thing left to do is the output.
 ```
-ë               # else
- [...]          # infinite loop
-```
-If we find a `3` which is a crossroad, we go down this time. Note that we didn't go left here because it is already done when visiting `0` (explained later). 
-```
-D               # duplicate the current flag
- Íi        }    # if flag - 2 == 1
-   <            # assign flag with 2
-    XY+U        # assign X with X+351 (go down)
-        1#      # break the loop
-```
-If we find a `2` we go up.
-```
-<i              # if flag - 1 == 1
-  XY-U          # assign X with X-351 (go up)
-```
-Else it must be `1` where we have to go left, or `0`. The `0` is always visited once, and instead of going left once on the crossroad (`3`), we can go left here, to save a few bytes.
-```
-ë               # else
- X<U            # assign X with X-1 (go left)
-```
-The following character `]` closes all if statements and two infinite loops. The only thing left to do is the output. Instead of replacing characters, I found that using an if statement is 1 byte shorter. 
-```
-J               # join the stack as a single string
- ε              # for each character of the string
-  Éi            # if it is odd (1 or 3)
-    'R          # push 'R' as Right
-      ë'D       # else push 'D' as Down
-         ]      # close if and for statement
-          »     # join by newlines
+ε               # for each element of the list
+ i              # if it equals to 1
+  'R            # push 'R' as Right
+    ë'D         # else push 'D' as Down
+       ]        # close if and for statement
+        »       # join by newlines
                 # implicit output
 ```
