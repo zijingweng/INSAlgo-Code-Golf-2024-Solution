@@ -187,9 +187,9 @@ X...            # the list that was put in the stack long ago
           U     # assgin to variable X
 ```
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 53 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 52 bytes
 ```
-|»'#1:U¯[DO©Žñá·Q#X®>èi1ªëX®Ƶû+èiƵûªëX0®ǝU¨]εi'Rë'D]»
+|»¤1:U¯[DO©Žñá·Q#X®>èi1ªëX®Ƶû+èiƵûªëX0®ǝU¨]εi'Rë'D]»
 ```
 Big thanks to [polo-diemunsch](https://github.com/polo-diemunsch) for the competition that forced me to come up with a new algorithm. 
 
@@ -204,9 +204,10 @@ Initialization
 ```
 |               # input all
  »              # join by '\n' which makes the padding
-  '#1:          # replace # with 1
-      U         # assgin to variable X
-       ¯        # empty list (to store directions)
+  ¤             # get last character (#)
+   1:           # replace all of them with 1
+     U          # assgin to variable X
+      ¯         # empty list (to store directions)
 ```
 The main loop, calculate current position and exit statement
 ```
