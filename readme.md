@@ -187,11 +187,11 @@ X...            # the list that was put in the stack long ago
           U     # assgin to variable X
 ```
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 52 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 49 bytes
 ```
-|»¤1:U¯[DO©Žñá·Q#X®>èi1ªëX®Ƶû+èiƵûªëX0®ǝU¨]εi'Rë'D]»
+|»¤1:U¯Ž4$EDOVXY>èi1ªëXYƵû+èiƵûªëX0YǝU¨]εi'Rë'D]»
 ```
-Big thanks to [polo-diemunsch](https://github.com/polo-diemunsch) for the competition that forced me to come up with a new algorithm. 
+Big thanks to [polo-diemunsch](https://github.com/polo-diemunsch) for the competition that forced me to come up with a new algorithm and do extreme optimizations. 
 
 The code again takes about a minute to run.
 
@@ -209,33 +209,32 @@ Initialization
      U          # assgin to variable X
       ¯         # empty list (to store directions)
 ```
-The main loop, calculate current position and exit statement
+The main loop and calculation of current position
 ```
-[         ...]  # infinite loop
-        Q#      # break if the following two equals:
- DO             # sum of list (current position)
-   ©            # (save to register_c)
-    Žñá·        # 61424*2 = 122848
+   E   ...]     # loop from 1 to 
+Ž4$             # 1118 (loop count to reach the end, by experience before)
+    DO          # calculate sum of the list (current position)
+      V         # and assign it to variable Y
 ```
 If the case to the right is road, we append `1` to the list
 ```
     i           # if
    è            # element of
 X               # map at
- ®>             # case to the right
+ Y>             # case to the right
                 # equals to 1 (road)
      1ª         # then append 1
 ```
 Similarly, else if the case to the bottom is road, we append `351` to the list
 ```
-ëX®Ƶû+èiƵûª     # Ƶû = 351
+ëXYƵû+èiƵûª     # Ƶû = 351
 ```
 Else we are in a dead end, so we change the map and take one step back
 ```
 ë               # else
     ǝ           # replace the element of
  X              # the map
-   ®            # at current position
+   Y            # at current position
   0             # with 0
      U          # and save it to variable X
       ¨         # pop list (remove last step)
