@@ -187,9 +187,9 @@ X...            # the list that was put in the stack long ago
           U     # assgin to variable X
 ```
 
-## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 56 bytes
+## [Day 5](https://github.com/INSAlgo/Code-Golf-2024/blob/main/5%20-%20nenuphar/sujet.md): 53 bytes
 ```
-|»UƵûV¯[DO©Žñá·Q#X®>è'#Qi1ªëX®Y+è'#QiYªëX0®ǝU¨]εi'Rë'D]»
+|»'#1:U¯[DO©Žñá·Q#X®>èi1ªëX®Ƶû+èiƵûªëX0®ǝU¨]εi'Rë'D]»
 ```
 Big thanks to [polo-diemunsch](https://github.com/polo-diemunsch) for the competition that forced me to come up with a new algorithm. 
 
@@ -204,10 +204,9 @@ Initialization
 ```
 |               # input all
  »              # join by '\n' which makes the padding
-  U             # assgin to variable X
-   Ƶû           # 351 (compressed in base 255)
-     V          # assign to variable Y
-      ¯         # empty list (to store directions)
+  '#1:          # replace # with 1
+      U         # assgin to variable X
+       ¯        # empty list (to store directions)
 ```
 The main loop, calculate current position and exit statement
 ```
@@ -217,18 +216,18 @@ The main loop, calculate current position and exit statement
    ©            # (save to register_c)
     Žñá·        # 61424*2 = 122848
 ```
-If the case to the right is `#`, we append `1` to the list
+If the case to the right is road, we append `1` to the list
 ```
-       i        # if
+    i           # if
    è            # element of
 X               # map at
  ®>             # case to the right
-    '#Q         # equals to '#'
-        1ª      # then append 1
+                # equals to 1 (road)
+     1ª         # then append 1
 ```
-Similarly, else if the case to the bottom is `#`, we append `351` to the list
+Similarly, else if the case to the bottom is road, we append `351` to the list
 ```
-ëX®Y+è'#QiYª
+ëX®Ƶû+èiƵûª     # Ƶû = 351
 ```
 Else we are in a dead end, so we change the map and take one step back
 ```
